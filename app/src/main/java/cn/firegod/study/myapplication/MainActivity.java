@@ -1,9 +1,6 @@
 package cn.firegod.study.myapplication;
 
 import android.app.Activity;
-import android.content.Context;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -11,6 +8,8 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.webkit.ValueCallback;
+import android.webkit.WebResourceError;
+import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -21,6 +20,7 @@ import java.util.Date;
 public class MainActivity extends Activity {
 
 
+//    String url = "http://192.168.1.101:8888/hall/pingjiaqi";
     String url = "http://zwfw.itl.gov.cn:8080/hall/pingjiaqi";
 
     WebView webView = null;
@@ -42,7 +42,6 @@ public class MainActivity extends Activity {
 //
 
 
-
         View viewById = findViewById(R.id.webview);
         webView = (WebView) viewById;
         webView.setSoundEffectsEnabled(true);
@@ -53,15 +52,15 @@ public class MainActivity extends Activity {
         settings.setLoadWithOverviewMode(true);
         settings.setJavaScriptEnabled(true);
 
-        final Handler handler=new Handler();
+        final Handler handler = new Handler();
 
-        final Runnable runnable=new Runnable() {
+        final Runnable runnable = new Runnable() {
             @Override
             public void run() {
                 // TODO Auto-generated method stub
                 //要做的事情
                 Toast.makeText(getApplicationContext(), "网络可能不稳定，每10秒重试连接", Toast.LENGTH_SHORT).show();
-                webView.reload();
+                webView.loadUrl(url);
             }
         };
 
@@ -89,21 +88,36 @@ public class MainActivity extends Activity {
                     }
                 }
             }
+
             @Override
             public void onPageFinished(final WebView view, String url) {
                 super.onPageFinished(view, url);
-                if ("找不到网页".equals(view.getTitle())) {
-                        lastReload = new Date().getTime();
-                        handler.removeCallbacks(runnable);
-                    handler.postDelayed(runnable, 10000);
 
-                }else{
+                if ("wait".equals(view.getTitle()) || "找不到网页".equals(view.getTitle())) {
+                    lastReload = new Date().getTime();
+                    handler.removeCallbacks(runnable);
+                    handler.postDelayed(runnable, 10000);
+                } else {
                     handler.removeCallbacks(runnable);
                 }
+
+                if ("找不到网页".equals(view.getTitle())) {
+                    view.loadData("<html><head><title>wait</title></head><body style='background:#eee;'><h1 style='text-align:center;margin-top:20%;'>请等待网络连接...</h1></body></html>", "text/html;charset=utf-8", "utf-8");
+                }
+
+
+            }
+
+            @Override
+            public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
+                super.onReceivedError(view, request, error);
+
             }
         });
 
         webView.loadUrl(url);
+
+
 //        final Context applicationContext = this.getApplicationContext();
 //        boolean bFlag = false;
 //        do {
@@ -136,17 +150,17 @@ public class MainActivity extends Activity {
 
     }
 
-    /**
-     * 判断wifi连接状态
-     *
-     * @param ctx
-     * @return
-     */
-    public boolean isWifiAvailable(Context ctx) {
-        ConnectivityManager conMan = (ConnectivityManager) ctx
-                .getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo.State wifi = conMan.getNetworkInfo(ConnectivityManager.TYPE_WIFI)
-                .getState();
-        return NetworkInfo.State.CONNECTED == wifi;
-    }
+//    /**
+//     * 判断wifi连接状态
+//     *
+//     * @param ctx
+//     * @return
+//     */
+//    public boolean isWifiAvailable(Context ctx) {
+//        ConnectivityManager conMan = (ConnectivityManager) ctx
+//                .getSystemService(Context.CONNECTIVITY_SERVICE);
+//        NetworkInfo.State wifi = conMan.getNetworkInfo(ConnectivityManager.TYPE_WIFI)
+//                .getState();
+//        return NetworkInfo.State.CONNECTED == wifi;
+//    }
 }
