@@ -1,13 +1,17 @@
 package cn.firegod.study.myapplication;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.webkit.CookieManager;
+import android.webkit.CookieSyncManager;
 import android.webkit.ValueCallback;
+import android.webkit.WebChromeClient;
 import android.webkit.WebResourceError;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
@@ -20,8 +24,8 @@ import java.util.Date;
 public class MainActivity extends Activity {
 
 
-//    String url = "http://192.168.1.101:8888/hall/pingjiaqi";
-    String url = "http://zwfw.itl.gov.cn:8080/hall/pingjiaqi";
+    //    String url = "http://192.168.1.101:8888/hall/pingjiaqi";
+    String url = "http://zwfw.itl.gov.cn:8080/hardware/pingjiaqi";
 
     WebView webView = null;
     static long lastReload = 0L;
@@ -50,7 +54,14 @@ public class MainActivity extends Activity {
         settings.setUseWideViewPort(true);
 //        settings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN); // web内容强制满屏
         settings.setLoadWithOverviewMode(true);
+        //设置WebView属性，能够执行Javascript脚本
         settings.setJavaScriptEnabled(true);
+
+        webView.setWebChromeClient(new WebChromeClient());
+
+        webView.addJavascriptInterface(new Music(getApplication()), "Music");
+
+        webView.addJavascriptInterface(new Cookie(getApplication()), "Cookie");
 
         final Handler handler = new Handler();
 
@@ -75,25 +86,10 @@ public class MainActivity extends Activity {
             }
 
             @Override
-            public void onLoadResource(WebView view, String url) {
-                if (url.indexOf("please_comment") != -1) {
-                    // 调用系统默认浏览器处理url
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                        view.evaluateJavascript("play_please_comment()", new ValueCallback<String>() {
-                            @Override
-                            public void onReceiveValue(String s) {
-
-                            }
-                        });
-                    }
-                }
-            }
-
-            @Override
             public void onPageFinished(final WebView view, String url) {
                 super.onPageFinished(view, url);
 
-                if ("wait".equals(view.getTitle()) || "找不到网页".equals(view.getTitle())) {
+                if ("".equals(view.getTitle()) || "wait".equals(view.getTitle()) || "Webpage not available".equals(view.getTitle())) {
                     lastReload = new Date().getTime();
                     handler.removeCallbacks(runnable);
                     handler.postDelayed(runnable, 10000);
@@ -101,11 +97,9 @@ public class MainActivity extends Activity {
                     handler.removeCallbacks(runnable);
                 }
 
-                if ("找不到网页".equals(view.getTitle())) {
+                if ("".equals(view.getTitle())) {
                     view.loadData("<html><head><title>wait</title></head><body style='background:#eee;'><h1 style='text-align:center;margin-top:20%;'>请等待网络连接...</h1></body></html>", "text/html;charset=utf-8", "utf-8");
                 }
-
-
             }
 
             @Override
