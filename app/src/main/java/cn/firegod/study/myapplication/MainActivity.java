@@ -21,7 +21,7 @@ public class MainActivity extends Activity {
 
 
 //    String url = "http://192.168.1.101:8888/hall/pingjiaqi";
-    String url = "http://zwfw.itl.gov.cn:8080/hall/pingjiaqi";
+    String url = "http://zwfw.itl.gov.cn:8888/hall/pingjiaqi";
 
     WebView webView = null;
     static long lastReload = 0L;
@@ -93,18 +93,16 @@ public class MainActivity extends Activity {
             public void onPageFinished(final WebView view, String url) {
                 super.onPageFinished(view, url);
 
-                if ("wait".equals(view.getTitle()) || "找不到网页".equals(view.getTitle())) {
+                if (!view.getTitle().contains("评价")) {
                     lastReload = new Date().getTime();
                     handler.removeCallbacks(runnable);
                     handler.postDelayed(runnable, 10000);
+                    if (!view.getTitle().contains("wait")) {
+                        view.loadData("<html><head><title>wait</title></head><body style='background:#eee;'><h1 style='text-align:center;margin-top:20%;font-size:20em;color:red'>请等待网络连接...</h1></body></html>", "text/html;charset=utf-8", "utf-8");
+                    }
                 } else {
                     handler.removeCallbacks(runnable);
                 }
-
-                if ("找不到网页".equals(view.getTitle())) {
-                    view.loadData("<html><head><title>wait</title></head><body style='background:#eee;'><h1 style='text-align:center;margin-top:20%;'>请等待网络连接...</h1></body></html>", "text/html;charset=utf-8", "utf-8");
-                }
-
 
             }
 
