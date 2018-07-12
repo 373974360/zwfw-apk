@@ -1,6 +1,5 @@
 package cn.firegod.study.myapplication;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -21,8 +20,8 @@ import java.util.Date;
 
 public class LianhuWindowDisplayActivity extends Activity {
 
-//    String url = "http://192.168.2.106:63341/parent/pingjiaqi/window.html";
-    String url = "http://192.168.2.235:33333/deyatong/pingjiaqi/windowOne.html";
+    //    String url = "http://192.168.2.106:63341/parent/pingjiaqi/window.html";
+    String url = "http://117.36.51.98:8888/pingjiaqi/windowCallInfo.html";
 
     WebView webView = null;
     static long lastReload = 0L;
@@ -105,15 +104,15 @@ public class LianhuWindowDisplayActivity extends Activity {
         webView.loadUrl(url);
 
         //绑定按钮的事件
-        Button button = findViewById(R.id.btn_refresh);
-        button.setOnClickListener(v -> {
-            webView.clearCache(true);
-            ((WebView) webView).reload();
-        });
+//        Button button = findViewById(R.id.btn_refresh);
+//        button.setOnClickListener(v -> {
+//            webView.clearCache(true);
+//            ((WebView) webView).reload();
+//        });
 
-        findViewById(R.id.btn_switch).setOnClickListener(v->{
-            Intent intent = new Intent(this,PingjiaqiActivity.class);
-            startActivity(intent);
-        });
+//        findViewById(R.id.btn_switch).setOnClickListener(v -> {
+//            Intent intent = new Intent(this, PingjiaqiActivity.class);
+//            startActivity(intent);
+//        });
     }
 }

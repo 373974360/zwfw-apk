@@ -11,20 +11,20 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".PingjiaqiActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-                <category android:name="android.intent.category.HOME" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
+        <!--<activity android:name=".PingjiaqiActivity">-->
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.MAIN" />-->
+                <!--<category android:name="android.intent.category.LAUNCHER" />-->
+                <!--<category android:name="android.intent.category.HOME" />-->
+                <!--<category android:name="android.intent.category.DEFAULT" />-->
+            <!--</intent-filter>-->
+        <!--</activity>-->
         <activity android:name=".LianhuWindowDisplayActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
                 <category android:name="android.intent.category.HOME" />
-                <!--<category android:name="android.intent.category.DEFAULT" />-->
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
     </application>

@@ -1,17 +1,12 @@
 package cn.firegod.study.myapplication;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.webkit.CookieManager;
-import android.webkit.CookieSyncManager;
-import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceError;
 import android.webkit.WebResourceRequest;
@@ -27,7 +22,7 @@ public class PingjiaqiActivity extends Activity {
 
 
 //        String url = "http://192.168.2.106:63341/parent/pingjiaqi/pingjiaqi.html";
-        String url = "http://192.168.2.235:33333/deyatong/pingjiaqi/pjq.html";
+        String url = "http://117.36.51.98:8888/pingjiaqi/pjq.html";
 //    String url = "https://new.zwfw.itl.gov.cn/pingjiaqi.html";
 
     WebView webView = null;
@@ -114,17 +109,17 @@ public class PingjiaqiActivity extends Activity {
         webView.loadUrl(url);
 
 //绑定按钮的事件
-        Button button = findViewById(R.id.btn_refresh);
-        button.setOnClickListener(v -> {
-            webView.clearCache(true);
-            ((WebView) webView).reload();
-        });
+//        Button button = findViewById(R.id.btn_refresh);
+//        button.setOnClickListener(v -> {
+//            webView.clearCache(true);
+//            ((WebView) webView).reload();
+//        });
 
 
-        findViewById(R.id.btn_switch).setOnClickListener(v->{
-            Intent intent = new Intent(this,LianhuWindowDisplayActivity.class);
-            startActivity(intent);
-        });
+//        findViewById(R.id.btn_switch).setOnClickListener(v->{
+//            Intent intent = new Intent(this,LianhuWindowDisplayActivity.class);
+//            startActivity(intent);
+//        });
 //        final Context applicationContext = this.getApplicationContext();
 //        boolean bFlag = false;
 //        do {
