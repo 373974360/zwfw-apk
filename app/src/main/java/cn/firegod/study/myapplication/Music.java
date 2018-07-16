@@ -1,8 +1,6 @@
 package cn.firegod.study.myapplication;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.res.AssetFileDescriptor;
 import android.media.MediaPlayer;
 import android.webkit.JavascriptInterface;
 
