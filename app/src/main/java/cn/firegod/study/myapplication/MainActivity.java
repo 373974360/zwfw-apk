@@ -13,7 +13,6 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
-
 import java.util.Date;
 
 public class MainActivity extends Activity {
@@ -24,7 +23,6 @@ public class MainActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         Window window = getWindow();
         WindowManager.LayoutParams params = window.getAttributes();
         params.systemUiVisibility = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_IMMERSIVE;
@@ -32,10 +30,6 @@ public class MainActivity extends Activity {
         window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_main);
-//
-//
-
-
         View viewById = findViewById(R.id.webview);
         webView = (WebView) viewById;
         webView.setSoundEffectsEnabled(true);
@@ -46,13 +40,9 @@ public class MainActivity extends Activity {
         settings.setLoadWithOverviewMode(true);
         //设置WebView属性，能够执行Javascript脚本
         settings.setJavaScriptEnabled(true);
-
         webView.setWebChromeClient(new WebChromeClient());
-
         webView.addJavascriptInterface(new Music(getApplication()), "Music");
-
         final Handler handler = new Handler();
-
         final Runnable runnable = new Runnable() {
             @Override
             public void run() {
@@ -62,7 +52,6 @@ public class MainActivity extends Activity {
                 webView.loadUrl(url);
             }
         };
-
         webView.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
@@ -70,7 +59,6 @@ public class MainActivity extends Activity {
                 view.loadUrl(url);
                 return true;
             }
-
             @Override
             public void onPageFinished(final WebView view, String url) {
                 super.onPageFinished(view, url);
@@ -85,7 +73,6 @@ public class MainActivity extends Activity {
                     view.loadData("<html><head><title>wait</title></head><body style='background:#eee;'><h1 style='text-align:center;margin-top:20%;'>请等待网络连接...</h1></body></html>", "text/html;charset=utf-8", "utf-8");
                 }
             }
-
             @Override
             public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
                 super.onReceivedError(view, request, error);

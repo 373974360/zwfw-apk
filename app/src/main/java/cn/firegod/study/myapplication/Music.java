@@ -15,10 +15,8 @@ public class Music{
 
     @JavascriptInterface
     public void playMusic(String song) {
-
         MediaPlayer mp1 = MediaPlayer.create(mContext, R.raw.welcom);
         MediaPlayer mp2 = MediaPlayer.create(mContext, R.raw.pingjia);
-
         switch (song) {
             case "welcom":
                 mp1.start();
@@ -27,6 +25,5 @@ public class Music{
                 mp2.start();
                 break;
         }
-
     }
 }
