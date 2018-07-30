@@ -34,8 +34,8 @@ import java.util.Date;
 
 public class MainActivity extends Activity {
     //    String url = "http://117.36.51.98:8888/dating/windowScreen.html";
-//    String url = "http://172.16.101.2:8888/dating/windowScreen.html";
-    String url = "http://weixin.com";
+    String url = "http://172.16.101.2:8888/dating/windowScreen.html";
+//    String url = "http://weixin.com";
     WebView webView = null;
     static long lastReload = 0L;
 //    Downloader downloader = null;
