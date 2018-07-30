@@ -1,11 +1,25 @@
 package cn.firegod.study.myapplication;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.LauncherActivity;
+import android.content.ComponentName;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.pm.LauncherApps;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.Settings;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.webkit.DownloadListener;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceError;
 import android.webkit.WebResourceRequest;
@@ -13,15 +27,22 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
+
+import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.Date;
 
 public class MainActivity extends Activity {
-    String url = "http://172.16.101.2:8888/dating/windowScreen.html";
+    //    String url = "http://117.36.51.98:8888/dating/windowScreen.html";
+//    String url = "http://172.16.101.2:8888/dating/windowScreen.html";
+    String url = "http://weixin.com";
     WebView webView = null;
     static long lastReload = 0L;
+    Downloader downloader = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         Window window = getWindow();
         WindowManager.LayoutParams params = window.getAttributes();
@@ -42,6 +63,7 @@ public class MainActivity extends Activity {
         settings.setJavaScriptEnabled(true);
         webView.setWebChromeClient(new WebChromeClient());
         webView.addJavascriptInterface(new Music(getApplication()), "Music");
+
         final Handler handler = new Handler();
         final Runnable runnable = new Runnable() {
             @Override
@@ -59,6 +81,7 @@ public class MainActivity extends Activity {
                 view.loadUrl(url);
                 return true;
             }
+
             @Override
             public void onPageFinished(final WebView view, String url) {
                 super.onPageFinished(view, url);
@@ -73,6 +96,7 @@ public class MainActivity extends Activity {
                     view.loadData("<html><head><title>wait</title></head><body style='background:#eee;'><h1 style='text-align:center;margin-top:20%;'>请等待网络连接...</h1></body></html>", "text/html;charset=utf-8", "utf-8");
                 }
             }
+
             @Override
             public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
                 super.onReceivedError(view, request, error);
@@ -80,61 +104,45 @@ public class MainActivity extends Activity {
         });
         webView.loadUrl(url);
 
-//绑定按钮的事件
-//        Button button = findViewById(R.id.btn_refresh);
-//        button.setOnClickListener(v -> {
-//            webView.clearCache(true);
-//            ((WebView) webView).reload();
-//        });
+        downloader = new Downloader(MainActivity.this);
+        webView.setDownloadListener(new DownloadListener() {
+            @Override
+            public void onDownloadStart(String url, String userAgent, String contentDisposition, String mimetype, long contentLength) {
+                if (url.endsWith(".apk")) {
+                    /**
+                     * 通过系统下载apk
+                     */
+                    Uri uri = Uri.parse(url);
+                    Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                    startActivity(intent);
+                }
+            }
+        });
 
-
-//        findViewById(R.id.btn_switch).setOnClickListener(v->{
-//            Intent intent = new Intent(this,LianhuWindowDisplayActivity.class);
-//            startActivity(intent);
-//        });
-//        final Context applicationContext = this.getApplicationContext();
-//        boolean bFlag = false;
-//        do {
-//            bFlag = isWifiAvailable(applicationContext);
-//            if (bFlag) {
-//                Log.i("Wifi state - ", "connected");
-//                webView.loadUrl(url);
-//                Log.i("111", "Webview load url ");
-//                return;
-//            } else {
-//                Log.i("Wifi state - ", "not connected");
-//            }
-//            try {
-//                Thread.sleep(1000);
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
-//        }
-//        while (!bFlag);
-
-////        webView.setSystemUiVisibility(0);
-//
-//        new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//
-//            }
-//        }).start();
-//        Toast.makeText(getApplicationContext(), "qidongle", Toast.LENGTH_SHORT).show();
 
     }
 
-//    /**
-//     * 判断wifi连接状态
-//     *
-//     * @param ctx
-//     * @return
-//     */
-//    public boolean isWifiAvailable(Context ctx) {
-//        ConnectivityManager conMan = (ConnectivityManager) ctx
-//                .getSystemService(Context.CONNECTIVITY_SERVICE);
-//        NetworkInfo.State wifi = conMan.getNetworkInfo(ConnectivityManager.TYPE_WIFI)
-//                .getState();
-//        return NetworkInfo.State.CONNECTED == wifi;
-//    }
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) { // 监控/拦截/屏蔽返回键
+//            Intent intent =  new Intent(Settings.ACTION_MANAGE_ALL_APPLICATIONS_SETTINGS);
+            Intent intent = new Intent(Settings.ACTION_SETTINGS);
+            startActivity(intent);
+
+            try {
+                @SuppressLint("WrongConstant") Object service = getSystemService("statusbar");
+                Class<?> statusBarManager = Class.forName
+                        ("android.app.StatusBarManager");
+                Method expand = statusBarManager.getMethod("expandNotificationsPanel");
+//                Method expand2 = statusBarManager.getMethod ("expandSettingsPanel");
+                expand.invoke(service);
+//                expand2.invoke (service);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        }
+//        return false;
+        return super.onKeyDown(keyCode, event);
+    }
 }
