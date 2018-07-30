@@ -38,7 +38,7 @@ public class MainActivity extends Activity {
     String url = "http://weixin.com";
     WebView webView = null;
     static long lastReload = 0L;
-    Downloader downloader = null;
+//    Downloader downloader = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,7 +104,7 @@ public class MainActivity extends Activity {
         });
         webView.loadUrl(url);
 
-        downloader = new Downloader(MainActivity.this);
+//        downloader = new Downloader(MainActivity.this);
         webView.setDownloadListener(new DownloadListener() {
             @Override
             public void onDownloadStart(String url, String userAgent, String contentDisposition, String mimetype, long contentLength) {
