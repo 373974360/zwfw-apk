@@ -12,6 +12,7 @@ import android.content.pm.LauncherApps;
 import android.content.pm.PackageManager;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Settings;
@@ -94,6 +95,9 @@ public class MainActivity extends Activity {
                     handler.postDelayed(runnable, 10000);
                 } else {
                     handler.removeCallbacks(runnable);
+                }
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                    view.evaluateJavascript("if(playVideo!=null){playVideo()}",null);
                 }
                 if ("".equals(view.getTitle())) {
                     view.loadData("<html><head><title>wait</title></head><body style='background:#eee;'><h1 style='text-align:center;margin-top:20%;'>系统正在启动中...</h1></body></html>", "text/html;charset=utf-8", "utf-8");
