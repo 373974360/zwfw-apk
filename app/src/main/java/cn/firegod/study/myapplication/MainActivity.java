@@ -37,7 +37,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class MainActivity extends Activity {
-    String url = "http://172.16.101.2/dating/columnScreen.html";
+    String url = "http://172.16.101.2/dating/columnScreenPlat.html";
     WebView webView = null;
     static long lastReload = 0L;
 
