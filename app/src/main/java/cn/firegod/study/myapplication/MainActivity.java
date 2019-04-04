@@ -1,28 +1,17 @@
 package cn.firegod.study.myapplication;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.LauncherActivity;
-import android.content.ComponentName;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
-import android.content.pm.LauncherApps;
-import android.content.pm.PackageManager;
-import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Settings;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.webkit.DownloadListener;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceError;
 import android.webkit.WebResourceRequest;
@@ -32,12 +21,10 @@ import android.webkit.WebViewClient;
 import android.widget.Toast;
 
 import java.lang.reflect.Method;
-import java.security.KeyStore;
-import java.util.ArrayList;
 import java.util.Date;
 
 public class MainActivity extends Activity {
-    String url = "http://172.16.101.2/dating/columnScreenPlat.html";
+    String url = "http://192.168.70.2.2/dating/columnScreenPlat.html";
     WebView webView = null;
     static long lastReload = 0L;
 
@@ -97,7 +84,7 @@ public class MainActivity extends Activity {
                     handler.removeCallbacks(runnable);
                 }
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                    view.evaluateJavascript("if(playVideo!=null){playVideo()}",null);
+                    view.evaluateJavascript("if(playVideo!=null){playVideo()}", null);
                 }
                 if ("".equals(view.getTitle())) {
                     view.loadData("<html><head><title>wait</title></head><body style='background:#eee;'><h1 style='text-align:center;margin-top:20%;'>系统正在启动中...</h1></body></html>", "text/html;charset=utf-8", "utf-8");
