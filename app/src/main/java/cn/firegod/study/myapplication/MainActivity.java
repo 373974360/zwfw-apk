@@ -49,11 +49,16 @@ public class MainActivity extends Activity {
         settings.setLoadWithOverviewMode(true);
         //设置WebView属性，能够执行Javascript脚本
         settings.setJavaScriptEnabled(true);
-        webView.getSettings().setDomStorageEnabled(true);
-        webView.getSettings().setDatabaseEnabled(true);
-        webView.getSettings().setAppCacheEnabled(true);
+        settings.setDomStorageEnabled(true);
+        settings.setAppCacheMaxSize(1024 * 1024 * 8);
+        String appCachePath = getApplicationContext().getCacheDir().getAbsolutePath();
+        settings.setAppCachePath(appCachePath);
+        settings.setAllowFileAccess(true);
+        settings.setAppCacheEnabled(true);
+        settings.setDatabaseEnabled(true);
         webView.setWebChromeClient(new WebChromeClient());
         webView.addJavascriptInterface(new Music(getApplication()), "Music");
+        webView.addJavascriptInterface(new AndroidFileInterface(getApplication()),"AndroidFile");
         final Handler handler = new Handler();
         final Runnable runnable = new Runnable() {
             @Override
@@ -66,6 +71,22 @@ public class MainActivity extends Activity {
         webView.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
+
+                WebSettings settings = view.getSettings();
+                view.clearCache(false);
+                view.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY); // 设置无边框
+                settings.setUseWideViewPort(true);
+//        settings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN); // web内容强制满屏
+                settings.setLoadWithOverviewMode(true);
+                //设置WebView属性，能够执行Javascript脚本
+                settings.setJavaScriptEnabled(true);
+                settings.setDomStorageEnabled(true);
+                settings.setAppCacheMaxSize(1024 * 1024 * 8);
+                String appCachePath = getApplicationContext().getCacheDir().getAbsolutePath();
+                settings.setAppCachePath(appCachePath);
+                settings.setAllowFileAccess(true);
+                settings.setAppCacheEnabled(true);
+                settings.setDatabaseEnabled(true);
                 // TODO Auto-generated method stub
                 view.loadUrl(url);
                 return true;
