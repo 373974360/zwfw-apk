@@ -22,9 +22,10 @@ import android.widget.Toast;
 
 import java.lang.reflect.Method;
 import java.util.Date;
+import java.util.Random;
 
 public class MainActivity extends Activity {
-    String url = "http://192.168.70.2/dating/columnScreenPlat.html";
+    String url = "http://172.16.101.2/screen/columnScreenPlat.html?random=" + new Random().nextFloat();
     WebView webView = null;
     static long lastReload = 0L;
 
@@ -57,7 +58,6 @@ public class MainActivity extends Activity {
         settings.setAppCacheEnabled(true);
         settings.setDatabaseEnabled(true);
         webView.setWebChromeClient(new WebChromeClient());
-        webView.addJavascriptInterface(new Music(getApplication()), "Music");
         webView.addJavascriptInterface(new AndroidFileInterface(getApplication()),"AndroidFile");
         final Handler handler = new Handler();
         final Runnable runnable = new Runnable() {
