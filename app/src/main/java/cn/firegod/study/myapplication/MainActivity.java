@@ -24,7 +24,7 @@ import java.lang.reflect.Method;
 import java.util.Date;
 
 public class MainActivity extends Activity {
-    String url = "http://192.168.70.2/dating/comment.html";
+    String url = "http://192.168.70.2/screen/commentScreen.html";
     WebView webView = null;
     static long lastReload = 0L;
 
